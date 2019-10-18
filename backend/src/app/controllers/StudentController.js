@@ -4,10 +4,6 @@ import User from '../models/User';
 
 class StudentController {
   async store(req, res) {
-    const { adm } = User.findOne({ where: { adm: req.params.adm } });
-    if (adm === 1) {
-      return res.json({ error: 'User is not an Administrator' });
-    }
     const schema = Yup.object().shape({
       name: Yup.string().required(),
       email: Yup.string()
@@ -32,6 +28,11 @@ class StudentController {
       return res.status(400).json({ error: 'Stundet already exists.' });
     }
 
+    const { adm } = await User.findOne({ where: { id: req.userId } });
+    if (adm !== 1) {
+      return res.json({ error: 'User is not an Administrator' });
+    }
+
     const { id, name, email, age, weight, height } = await Student.create(
       req.body
     );
@@ -47,10 +48,6 @@ class StudentController {
   }
 
   async update(req, res) {
-    const { adm } = User.findOne({ where: { adm: req.params.adm } });
-    if (adm === 1) {
-      return res.json({ error: 'User is not an Administrator' });
-    }
     const schema = Yup.object().shape({
       name: Yup.string(),
       email: Yup.string().email(),
@@ -63,28 +60,26 @@ class StudentController {
       return res.status(400).json({ error: 'Validation faiels' });
     }
 
-    const { email } = req.body;
+    const studentExists = await Student.findByPk(req.params.id);
 
-    const student = await Student.findByPk(req.params.id);
-
-    if (email !== student.email) {
-      const studentExists = await Student.findOne({
-        where: { email },
-      });
-
-      if (studentExists) {
-        return res
-          .status(400)
-          .json({ error: 'Student already with this email exists.' });
-      }
+    if (!studentExists) {
+      return res.json({ error: 'Student does not exists' });
     }
 
-    const { id, name, age, weight, height } = await Student.update(req.body, {
-      where: { id: req.params.id },
-    });
+    const { adm } = await User.findOne({ where: { id: req.userId } });
+    if (adm !== 1) {
+      return res.json({ error: 'User is not an Administrator' });
+    }
+
+    const { name, email, age, weight, height } = await Student.update(
+      req.body,
+      {
+        where: { id: req.params.id },
+      }
+    );
 
     return res.json({
-      id,
+      id: req.params.id,
       name,
       email,
       age,
