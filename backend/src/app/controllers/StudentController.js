@@ -1,6 +1,5 @@
 import * as Yup from 'yup';
 import Student from '../models/Student';
-import User from '../models/User';
 
 class StudentController {
   async store(req, res) {
@@ -28,8 +27,7 @@ class StudentController {
       return res.status(400).json({ error: 'Stundet already exists.' });
     }
 
-    const { adm } = await User.findOne({ where: { id: req.userId } });
-    if (adm !== 1) {
+    if (req.isAdm !== 1) {
       return res.json({ error: 'User is not an Administrator' });
     }
 
@@ -66,20 +64,19 @@ class StudentController {
       return res.json({ error: 'Student does not exists' });
     }
 
-    const { adm } = await User.findOne({ where: { id: req.userId } });
-    if (adm !== 1) {
+    if (req.isAdm !== 1) {
       return res.json({ error: 'User is not an Administrator' });
     }
 
     const { name, email, age, weight, height } = await Student.update(
       req.body,
       {
-        where: { id: req.params.id },
+        where: { id: studentExists.id },
       }
     );
 
     return res.json({
-      id: req.params.id,
+      id: studentExists.id,
       name,
       email,
       age,
