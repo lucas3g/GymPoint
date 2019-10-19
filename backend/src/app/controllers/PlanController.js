@@ -83,7 +83,7 @@ class PlanController {
       return res.json({ error: 'User is not an Administrator' });
     }
     await Plan.destroy({ where: { id: req.params.id } });
-    return res.json({ error: 'Plan delete with success!' });
+    return res.json({ error: 'Plan deleted with success!' });
   }
 }
 
