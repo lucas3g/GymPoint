@@ -20,11 +20,11 @@ module.exports = {
       },
       answer: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       answer_at: {
         type: Sequelize.DATE,
-        allowNull: false,
+        allowNull: true,
       },
       created_at: {
         type: Sequelize.DATE,
