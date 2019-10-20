@@ -70,9 +70,9 @@ class HelpOrdersController {
 
     const checkStudentExists = await Student.findByPk(req.params.id);
 
-    if (!checkStudentExists) {
+     /* if (!checkStudentExists) {
       return res.status(400).json({ error: 'Student does not exists' });
-    }
+    } */
 
     const { id } = req.params;
     const { answer } = req.body;
