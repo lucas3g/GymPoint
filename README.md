@@ -25,4 +25,6 @@ Criado em NodeJS, ReactJS e React Native
 - handlebars;
 - sequelize;
 - docker;
+- sentry;
+- youch;
 
