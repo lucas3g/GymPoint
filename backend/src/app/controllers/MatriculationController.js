@@ -3,6 +3,7 @@ import { parseISO, startOfDay, isBefore, addMonths } from 'date-fns';
 import Matriculation from '../models/Matriculation';
 import Plan from '../models/Plan';
 import Student from '../models/Student';
+import calculateMatriculation from '../../utils/calculateMatriculation';
 
 import MatriculationMail from '../jobs/MatriculationMail';
 import UpdateMatriculationMail from '../jobs/UpdateMatriculationMail';
@@ -80,7 +81,7 @@ class MatriculationController {
     const plan = await Plan.findOne({ where: { id: req.body.plan_id } });
 
     const MonthFinished = addMonths(parseISO(start_date), plan.duration);
-    const priceFinal = plan.duration * plan.price;
+    const priceFinal = calculateMatriculation(plan.duration, plan.price);
 
     const matriculation = await Matriculation.create({
       student_id,
@@ -112,9 +113,13 @@ class MatriculationController {
 
   async update(req, res) {
     const schema = Yup.object().shape({
+      student_id: Yup.number()
+        .integer()
+        .required(),
+      plan_id: Yup.number()
+        .integer()
+        .required(),
       start_date: Yup.date().required(),
-      end_date: Yup.date().required(),
-      price: Yup.number().required(),
     });
 
     if (!(await schema.isValid(req.body))) {
@@ -133,18 +138,25 @@ class MatriculationController {
       return res.json({ error: 'User is not an Administrator' });
     }
 
-    const { start_date, end_date, price } = req.body;
+    const { student_id, plan_id, start_date } = req.body;
 
     const dateStart = startOfDay(parseISO(start_date));
-    const dateEnd = startOfDay(parseISO(end_date));
 
-    if (isBefore(dateStart, new Date()) || isBefore(dateEnd, new Date())) {
+    if (isBefore(dateStart, new Date())) {
       return res.status(400).json({ error: 'Past dates are not permitted' });
     }
 
-    await Matriculation.update(req.body, {
-      where: { id: req.params.id },
-    });
+    const plan = await Plan.findOne({ where: { id: req.body.plan_id } });
+
+    const MonthFinished = addMonths(parseISO(start_date), plan.duration);
+    const priceFinal = calculateMatriculation(plan.duration, plan.price);
+
+    await Matriculation.update(
+      { ...req.body, end_date: MonthFinished, price: priceFinal },
+      {
+        where: { id: req.params.id },
+      }
+    );
 
     const matriculationFinished = await Matriculation.findByPk(req.params.id, {
       include: [
@@ -162,9 +174,11 @@ class MatriculationController {
 
     return res.json({
       id: req.params.id,
+      student_id,
+      plan_id,
       start_date,
-      end_date,
-      price,
+      end_date: MonthFinished,
+      price: priceFinal,
     });
   }
 

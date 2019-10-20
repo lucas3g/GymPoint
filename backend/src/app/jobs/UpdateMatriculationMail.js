@@ -21,14 +21,14 @@ class UpdateMatriculationMail {
         student: matriculationFinished.student.name,
         start_date: format(
           parseISO(matriculationFinished.start_date),
-          "'dia' dd 'de' MMM', às' H:mm'h'",
+          "'dia' dd 'de' MMM 'de' yyyy ', às' H:mm'h'",
           {
             locale: pt,
           }
         ),
         end_date: format(
           parseISO(matriculationFinished.end_date),
-          "'dia' dd 'de' MMM', às' H:mm'h'",
+          "'dia' dd 'de' MMM 'de' yyyy ', às' H:mm'h'",
           {
             locale: pt,
           }
