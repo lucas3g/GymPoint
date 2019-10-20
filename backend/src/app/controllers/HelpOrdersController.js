@@ -31,6 +31,10 @@ class HelpOrdersController {
   async index(req, res) {
     const answer = await HelpOrder.findAll({ where: { answer: null } });
 
+    if (!answer) {
+      res.status(404).json({ message: 'No questions to answer' });
+    }
+
     return res.json(answer);
   }
 
