@@ -1,0 +1,60 @@
+<!--  <strong>Olá, {{ stundet }}</strong>
+<p>Seja muito bem-vindo ao GymPoint :)</p>
+<p>
+  <p>Dados cadastrais:</p><br />
+  <strong>Data de inicio: </strong> {{ start_date }} <br />
+  <strong>Data de termino: </strong> {{ end_date }} <br />
+  <strong>Valor Total: </strong> {{ price }} <br />
+</p>-->
+<style rel="stylesheet" type="text/css">
+    * {
+  box-sizing: border-box;
+}
+.container {
+  border: 1px solid #e5e3d8;
+  padding: 20px;
+  border-radius: 5px;
+}
+h3,
+p {
+  color: rgb(110, 110, 110);
+  font-family: sans-serif;
+  line-height: 1.5em;
+}
+h3 {
+  color: #ff0000;
+  font-size: 24px;
+}
+p {
+  font-size: 15px;
+}
+blockquote {
+  background: #ffffff;
+  border-left: 10px solid rgb(248, 114, 114);
+  margin: 1.5em 10px;
+  padding: 0.5em 10px;
+}
+blockquote p {
+  display: inline;
+}
+.center {
+  text-align: center;
+}
+.small {
+  font-size: 10;
+}
+
+</style>
+<div class="container">
+  <h3 class="center">GymPoint</h3>
+
+<blockquote>
+  <p>Olá <strong>{{ student }}</strong> Alguns dados da sua matricula foram alterados.<br />
+  <p>Configura os novos dados do seu cadastro</p>  <br />
+  <strong>Data de inicio: </strong> {{ start_date }} <br />
+  <strong>Data de termino: </strong> {{ end_date }} <br />
+  <strong>Valor Total: </strong> R$ {{ price }} <br /></p>
+</blockquote>
+
+<p class="center small">Email gerado automaticamente por favor não responda. Equipe GymPoint</p>
+</div>

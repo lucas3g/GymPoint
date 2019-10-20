@@ -3,9 +3,9 @@ import pt from 'date-fns/locale/pt';
 import Mail from '../../lib/Mail';
 import moneyFormated from '../../utils/moneyFormat';
 
-class MatriculationMail {
+class UpdateMatriculationMail {
   get key() {
-    return 'MatriculationMail';
+    return 'UpdateMatriculationMail';
   }
 
   async handle({ data }) {
@@ -15,8 +15,8 @@ class MatriculationMail {
 
     await Mail.sendMail({
       to: `${matriculationFinished.student.name} <${matriculationFinished.student.email}>`,
-      subject: 'Bem-Vindo ao GymPoint - Bora ficar MONSTRÃO',
-      template: 'matriculation',
+      subject: 'Academia GymPoint informa dados alterados',
+      template: 'updateMatriculation',
       context: {
         student: matriculationFinished.student.name,
         start_date: format(
@@ -39,4 +39,4 @@ class MatriculationMail {
   }
 }
 
-export default new MatriculationMail();
+export default new UpdateMatriculationMail();

@@ -5,6 +5,7 @@ import Plan from '../models/Plan';
 import Student from '../models/Student';
 
 import MatriculationMail from '../jobs/MatriculationMail';
+import UpdateMatriculationMail from '../jobs/UpdateMatriculationMail';
 import Queue from '../../lib/Queue';
 
 class MatriculationController {
@@ -143,6 +144,20 @@ class MatriculationController {
 
     await Matriculation.update(req.body, {
       where: { id: req.params.id },
+    });
+
+    const matriculationFinished = await Matriculation.findByPk(req.params.id, {
+      include: [
+        {
+          model: Student,
+          as: 'student',
+          attributes: ['name', 'email'],
+        },
+      ],
+    });
+
+    await Queue.add(UpdateMatriculationMail.key, {
+      matriculationFinished,
     });
 
     return res.json({
