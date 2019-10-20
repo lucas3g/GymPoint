@@ -17,7 +17,6 @@ Criado em NodeJS, ReactJS e React Native
 
 #### Alguns Plugins 
 
-- multer; 
 - bee-queue; 
 - date-fns; 
 - nodemailer;
