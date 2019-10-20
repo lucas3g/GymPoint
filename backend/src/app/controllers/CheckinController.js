@@ -1,5 +1,6 @@
-import { differenceInDays } from 'date-fns';
+// import { differenceInDays } from 'date-fns';
 import { Op } from 'sequelize';
+import moment from 'moment';
 import Checkin from '../models/Checkin';
 import Student from '../models/Student';
 
@@ -22,27 +23,21 @@ class CheckinController {
   async store(req, res) {
     const { id } = req.params;
 
-    const checkCheckin = await Checkin.findAndCountAll({
-      where: { student_id: id },
-    });
-
-    const checkDate = await Checkin.findOne({
+    const checkDate = await Checkin.findAll({
       where: {
         student_id: id,
         createdAt: {
-          [Op.not]: null,
+          [Op.gte]: moment()
+            .subtract(7, 'days')
+            .toDate(),
         },
       },
-      limit: 1,
-      order: [['createdAt', 'DESC']],
     });
-
-    const diffDays = differenceInDays(checkDate.createdAt, new Date());
-
-    if (checkCheckin.count >= 5 || diffDays <= 7) {
+    // console.log(checkDate);
+    if (checkDate.length >= 5) {
       return res
         .status(401)
-        .json({ error: 'Only 5 checkins allowed within 7 days' });
+        .json({ error: 'Only 5 checkins allowed within 7 days', checkDate });
     }
 
     const checkin = await Checkin.create({
