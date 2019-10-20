@@ -1,4 +1,5 @@
 import { differenceInDays } from 'date-fns';
+import { Op } from 'sequelize';
 import Checkin from '../models/Checkin';
 import Student from '../models/Student';
 
@@ -26,13 +27,19 @@ class CheckinController {
     });
 
     const checkDate = await Checkin.findOne({
-      where: { student_id: id },
+      where: {
+        student_id: id,
+        createdAt: {
+          [Op.not]: null,
+        },
+      },
+      limit: 1,
       order: [['createdAt', 'DESC']],
     });
 
     const diffDays = differenceInDays(checkDate.createdAt, new Date());
 
-    if (checkCheckin.count > 5 && diffDays < 7) {
+    if (checkCheckin.count >= 5 || diffDays <= 7) {
       return res
         .status(401)
         .json({ error: 'Only 5 checkins allowed within 7 days' });
