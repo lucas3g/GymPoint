@@ -20,11 +20,6 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      adm: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        defaultValue: 1,
-      },
       created_at: {
         type: Sequelize.DATE,
         allowNull: false,

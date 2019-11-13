@@ -2,6 +2,12 @@ import * as Yup from 'yup';
 import Student from '../models/Student';
 
 class StudentController {
+  async index(req, res) {
+    const students = await Student.findAll();
+
+    return res.json(students);
+  }
+
   async store(req, res) {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
@@ -24,11 +30,7 @@ class StudentController {
     });
 
     if (studentExists) {
-      return res.status(400).json({ error: 'Stundet already exists.' });
-    }
-
-    if (req.isAdm !== 1) {
-      return res.json({ error: 'User is not an Administrator' });
+      return res.status(400).json({ error: 'Student already exists.' });
     }
 
     const { id, name, email, age, weight, height } = await Student.create(
@@ -64,10 +66,6 @@ class StudentController {
 
     if (!studentExists) {
       return res.json({ error: 'Student does not exists' });
-    }
-
-    if (req.isAdm !== 1) {
-      return res.json({ error: 'User is not an Administrator' });
     }
 
     const { name, email, age, weight, height } = await Student.update(

@@ -21,6 +21,7 @@ class MatriculationController {
         'start_date',
         'end_date',
         'price',
+        'active',
         'student_id',
         'plan_id',
       ],

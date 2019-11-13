@@ -11,10 +11,6 @@ class UserController {
       password: Yup.string()
         .required()
         .min(6),
-      adm: Yup.number()
-        .integer()
-        .required()
-        .max(2),
     });
 
     if (!(await schema.isValid(req.body))) {
@@ -27,13 +23,12 @@ class UserController {
       return res.status(400).json({ error: 'User already exists.' });
     }
 
-    const { id, name, email, adm } = await User.create(req.body);
+    const { id, name, email } = await User.create(req.body);
 
     return res.json({
       id,
       name,
       email,
-      adm,
     });
   }
 
@@ -74,13 +69,12 @@ class UserController {
       return res.status(401).json({ error: 'Password doest not match' });
     }
 
-    const { id, name, adm } = await user.update(req.body);
+    const { id, name } = await user.update(req.body);
 
     return res.json({
       id,
       name,
       email,
-      adm,
     });
   }
 }
