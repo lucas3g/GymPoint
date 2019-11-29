@@ -1,7 +1,8 @@
 import React from 'react';
-
-// import { Container } from './styles';
+import headers from '~/components/Table';
+import { Container } from './styles';
 
 export default function Plans() {
-  return <h1>Planos</h1>;
+  // headers.addToHeader(['Nome', 'Email', 'Senha']);
+  return <Container>{headers}</Container>;
 }

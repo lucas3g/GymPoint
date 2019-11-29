@@ -5,13 +5,16 @@ import { Container, StudentTable, ContentForm, StudentForm } from './styles';
 // import api from '../../services/api';
 
 import {
+  studentCreateRequest,
   studentUpdateRequest,
+  studentDeleteRequest,
   studentListRequest,
 } from '~/store/modules/students/actions';
 
 export default function Students() {
   const dispatch = useDispatch();
   const students = useSelector(state => state.students.data);
+  const [flag, setFlag] = useState(false);
   const [storeStudent, setStoreStudent] = useState(false);
   const [initialData, setInitialData] = useState({});
   // const loading = useSelector(state => state.student.loading);
@@ -21,17 +24,32 @@ export default function Students() {
   // componetDidMount
   useEffect(() => {
     dispatch(studentListRequest());
-  }, [dispatch]);
+  }, [dispatch, students, flag]);
 
-  function handleUpdateSubmit() {
-    dispatch(studentUpdateRequest(initialData));
+  function handleCreateSubmit(data) {
+    dispatch(studentCreateRequest(data));
     setStoreStudent(false);
   }
 
+  function handleUpdateSubmit(data) {
+    dispatch(studentUpdateRequest(data, initialData.id));
+    setStoreStudent(false);
+  }
+
+  function handleDeleteSubmit(id) {
+    dispatch(studentDeleteRequest(id));
+  }
+
   function handleEditStudent(s) {
-    // dispatch(updateStudentRequest(s));
     setInitialData(s);
     setStoreStudent(true);
+    setFlag(false);
+  }
+
+  function handleCreateStudentFlag() {
+    setStoreStudent(true);
+    setFlag(true);
+    setInitialData({});
   }
 
   function handleEditStudentReverse() {
@@ -52,7 +70,12 @@ export default function Students() {
               >
                 Voltar
               </button>
-              <button type="submit" form="formStudent" id="buttonHandleSubmit">
+              <button
+                type="submit"
+                form="formStudent"
+                id="buttonHandleSubmit"
+                // onClick={flag ? handleCreateSubmit : handleUpdateSubmit}
+              >
                 Salvar
               </button>
             </div>
@@ -60,7 +83,7 @@ export default function Students() {
           <StudentForm>
             <Form
               initialData={initialData}
-              onSubmit={handleUpdateSubmit}
+              onSubmit={flag ? handleCreateSubmit : handleUpdateSubmit}
               id="formStudent"
             >
               <div id="div1">
@@ -99,6 +122,9 @@ export default function Students() {
                       name="height"
                       type="number"
                       placeholder="Sua Altura"
+                      pattern="[0-9]+([,\.][0-9]+)?"
+                      min="0"
+                      step="any"
                     />
                   </li>
                 </ul>
@@ -111,7 +137,7 @@ export default function Students() {
           <header>
             <h1>Gerenciando Alunos</h1>
             <div>
-              <button type="button" onClick={handleEditStudent}>
+              <button type="button" onClick={handleCreateStudentFlag}>
                 Cadastrar
               </button>
               <form>
@@ -145,7 +171,7 @@ export default function Students() {
                     <button
                       id="buttonApagar"
                       type="button"
-                      onClick={() => handleEditStudent(s)}
+                      onClick={() => handleDeleteSubmit(s.id)}
                     >
                       Apagar
                     </button>
