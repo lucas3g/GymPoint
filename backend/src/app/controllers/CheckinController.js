@@ -44,7 +44,7 @@ class CheckinController {
       student_id: id,
     });
 
-    return res.json(checkin);
+    return res.json({ checkin });
   }
 }
 

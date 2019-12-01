@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
 import { Op } from 'sequelize';
-import Student from '../models/Student';
 import HelpOrder from '../models/HelpOrder';
+import Student from '../models/Student';
 
 import AnswerMail from '../jobs/AnswerMail';
 import Queue from '../../lib/Queue';
