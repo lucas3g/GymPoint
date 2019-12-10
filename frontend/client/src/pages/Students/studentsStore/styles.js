@@ -78,65 +78,6 @@ export const Container = styled.div`
   }
 `;
 
-export const StudentTable = styled.table`
-  width: 100%;
-  height: 100px;
-  border-radius: 4px;
-  background-color: #fff;
-  margin-top: 30px;
-  padding: 30px;
-
-  thead {
-    font-family: Roboto;
-    color: #444;
-    text-align: left;
-    th#ageHead {
-      text-align: center;
-    }
-  }
-
-  tbody {
-    td {
-      padding-top: 10px;
-      padding-bottom: 10px;
-      font-size: 16px;
-      color: #666666;
-    }
-    tr:hover {
-      background-color: #eee;
-    }
-    td#email {
-      width: 300px;
-    }
-    td#age {
-      text-align: center;
-    }
-    td#action {
-      text-align: end;
-      width: 50px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding-right: 60px;
-      button#buttonEditar {
-        background: none;
-        border: 0;
-        color: #4d85ee;
-      }
-      button#buttonApagar {
-        background: none;
-        border: 0;
-        color: #de3b3b;
-      }
-
-      button {
-        padding-left: 10px;
-        font-size: 15px;
-      }
-    }
-  }
-`;
-
 export const ContentForm = styled.div`
   display: flex;
   align-items: center;

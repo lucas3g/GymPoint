@@ -1,6 +1,7 @@
 import { takeLatest, call, put, all } from 'redux-saga/effects';
 import { toast } from 'react-toastify';
 import api from '~/services/api';
+import history from '~/services/history';
 
 import {
   studentCreateSucess,
@@ -24,6 +25,8 @@ export function* studentCreate({ payload }) {
     toast.success('Aluno cadastrado com sucesso!');
 
     yield put(studentCreateSucess(response.data));
+
+    history.push('/Students');
   } catch (err) {
     toast.error(
       `Falha no cadastro do aluno, verifique o seus dados! ${err.message}`
@@ -43,6 +46,7 @@ export function* studentUpdate({ payload, id }) {
     toast.success('Aluno atualizado com sucesso!');
 
     yield put(studentUpdateSucess(response.data));
+    history.push('Students');
   } catch (err) {
     toast.error(
       `Falha na alteração do aluno, verifique o seus dados! ${err.message}`

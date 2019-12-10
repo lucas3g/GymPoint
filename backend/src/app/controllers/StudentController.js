@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import { Op } from 'sequelize';
 import Student from '../models/Student';
 
 class StudentController {
@@ -9,7 +10,9 @@ class StudentController {
   }
 
   async show(req, res) {
-    const student = await Student.findByPk(req.params.id);
+    const student = await Student.findOne({
+      where: { name: { [Op.like]: req.query.q } },
+    });
 
     return res.json({ student });
   }
