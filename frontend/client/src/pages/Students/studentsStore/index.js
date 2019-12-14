@@ -15,10 +15,11 @@ export default function StudentStore({ history }) {
   const { student } = history.location.state;
   const { store } = history.location.state;
 
+
   const [initialData, setInitialData] = useState({});
 
   useEffect(() => {
-    setInitialData();
+    setInitialData(student);
   }, [student]);
 
   function handleCreateSubmit(data) {
@@ -30,7 +31,7 @@ export default function StudentStore({ history }) {
   }
 
   function handleEditStudentReverse() {
-    history.push('/Students');
+    history.push('/students');
   }
 
   return (
@@ -46,12 +47,7 @@ export default function StudentStore({ history }) {
             >
               Voltar
             </button>
-            <button
-              type="submit"
-              form="formStudent"
-              id="buttonHandleSubmit"
-              // onClick={flag ? handleCreateSubmit : handleUpdateSubmit}
-            >
+            <button type="submit" form="formStudent" id="buttonHandleSubmit">
               Salvar
             </button>
           </div>

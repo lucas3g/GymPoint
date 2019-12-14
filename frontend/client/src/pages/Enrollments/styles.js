@@ -78,7 +78,7 @@ export const Container = styled.div`
   }
 `;
 
-export const PlanTable = styled.table`
+export const EnrollmentTable = styled.table`
   width: 100%;
   height: 100px;
   border-radius: 4px;
@@ -90,7 +90,10 @@ export const PlanTable = styled.table`
     font-family: Roboto;
     color: #444;
     text-align: left;
-    th#valor {
+    th#start_date {
+      text-align: center;
+    }
+    th#end_date {
       text-align: center;
     }
   }
@@ -105,10 +108,10 @@ export const PlanTable = styled.table`
     tr:hover {
       background-color: #eee;
     }
-    td#title {
-      width: 500px;
+    td#start_date {
+      text-align: center;
     }
-    td#price {
+    td#end_date {
       text-align: center;
     }
     td#action {

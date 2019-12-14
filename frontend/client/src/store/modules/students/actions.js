@@ -59,23 +59,3 @@ export function studentDeleteFailure(error) {
     error,
   };
 }
-
-export function studentListRequest() {
-  return {
-    type: '@student/STUDENT_LIST_REQUEST',
-  };
-}
-
-export function studentListSuccess(data) {
-  return {
-    type: '@student/STUDENT_LIST_SUCCESS',
-    payload: { data },
-  };
-}
-
-export function sudentListFailure(error) {
-  return {
-    type: '@student/STUDENT_LIST_FAILURE',
-    error,
-  };
-}

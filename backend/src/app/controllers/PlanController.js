@@ -3,10 +3,6 @@ import Plan from '../models/Plan';
 
 class PlanController {
   async index(req, res) {
-    if (req.isAdm !== 1) {
-      return res.json({ error: 'User is not an Administrator' });
-    }
-
     const plans = await Plan.findAll();
 
     return res.json(plans);
@@ -23,10 +19,6 @@ class PlanController {
 
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Validation fails' });
-    }
-
-    if (req.isAdm !== 1) {
-      return res.json({ error: 'User is not an Administrator' });
     }
 
     const { title, duration, price } = await Plan.create(req.body);
@@ -57,10 +49,6 @@ class PlanController {
       return res.status(400).json({ error: 'Plan not found!' });
     }
 
-    if (req.isAdm !== 1) {
-      return res.json({ error: 'User is not an Administrator' });
-    }
-
     const { title, duration, price } = await Plan.update(req.body, {
       where: { id: req.params.id },
     });
@@ -79,9 +67,6 @@ class PlanController {
       return res.status(400).json({ error: 'Plan not found!' });
     }
 
-    if (req.isAdm !== 1) {
-      return res.json({ error: 'User is not an Administrator' });
-    }
     await Plan.destroy({ where: { id: req.params.id } });
     return res.json({ error: 'Plan deleted with success!' });
   }

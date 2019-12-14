@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Input } from '@rocketseat/unform';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Container, StudentTable } from './styles';
 import api from '~/services/api';
 
-import {
-  studentDeleteRequest,
-  studentListRequest,
-} from '~/store/modules/students/actions';
+import { studentDeleteRequest } from '~/store/modules/students/actions';
 
 export default function Students({ history }) {
   const dispatch = useDispatch();
@@ -16,22 +12,16 @@ export default function Students({ history }) {
 
   useEffect(() => {
     async function searchStudentByName() {
-      const response = await api.get('students', {
-        query: { q: searchStudent },
-      });
+      const response = await api.get(
+        !searchStudent ? `students?q=${searchStudent}` : 'students'
+      );
 
       console.tron.log(response.data);
 
       setStudents(response.data);
     }
     searchStudentByName();
-  }, [searchStudent]);
-
-  useEffect(() => {
-    if (!searchStudent) {
-      dispatch(studentListRequest());
-    }
-  }, [students, dispatch, searchStudent]);
+  }, [searchStudent, students]);
 
   function handleDeleteSubmit(id) {
     dispatch(studentDeleteRequest(id));
@@ -60,11 +50,11 @@ export default function Students({ history }) {
             Cadastrar
           </button>
           <form>
-            <Input
-              name="searchStudent"
+            <input
+              name="q"
               type="text"
               placeholder="Buscar Aluno"
-              onChange={setSearchStudent}
+              onChange={text => setSearchStudent(text.target.value)}
             />
           </form>
         </div>

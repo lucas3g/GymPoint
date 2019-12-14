@@ -11,10 +11,6 @@ import Queue from '../../lib/Queue';
 
 class MatriculationController {
   async index(req, res) {
-    if (req.isAdm !== 1) {
-      return res.json({ error: 'User is not an Administrator' });
-    }
-
     const matriculations = await Matriculation.findAll({
       attributes: [
         'id',
@@ -58,10 +54,6 @@ class MatriculationController {
     }
 
     const { student_id, plan_id } = req.body;
-
-    if (req.isAdm !== 1) {
-      return res.json({ error: 'User is not an Administrator' });
-    }
 
     const checkMatriculationExists = await Matriculation.findOne({
       where: { student_id },
@@ -135,10 +127,6 @@ class MatriculationController {
       return res.status(400).json({ error: 'Matriculation not found!' });
     }
 
-    if (req.isAdm !== 1) {
-      return res.json({ error: 'User is not an Administrator' });
-    }
-
     const { student_id, plan_id, start_date } = req.body;
 
     const dateStart = startOfDay(parseISO(start_date));
@@ -188,10 +176,6 @@ class MatriculationController {
 
     if (!checkPlanExist) {
       return res.status(400).json({ error: 'Matriculation not found!' });
-    }
-
-    if (req.isAdm !== 1) {
-      return res.json({ error: 'User is not an Administrator' });
     }
 
     await Matriculation.destroy({ where: { id: req.params.id } });

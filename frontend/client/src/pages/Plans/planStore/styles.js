@@ -78,60 +78,82 @@ export const Container = styled.div`
   }
 `;
 
-export const PlanTable = styled.table`
+export const ContentForm = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+`;
+
+export const PlanForm = styled.div`
+  display: flex;
   width: 100%;
-  height: 100px;
+  max-width: 900px;
   border-radius: 4px;
   background-color: #fff;
   margin-top: 30px;
   padding: 30px;
 
-  thead {
-    font-family: Roboto;
-    color: #444;
-    text-align: left;
-    th#valor {
-      text-align: center;
-    }
+  form {
+    display: flex;
+    flex-direction: column;
+    margin-top: -30px;
   }
 
-  tbody {
-    td {
-      padding-top: 10px;
-      padding-bottom: 10px;
-      font-size: 16px;
-      color: #666666;
-    }
-    tr:hover {
-      background-color: #eee;
-    }
-    td#title {
-      width: 500px;
-    }
-    td#price {
-      text-align: center;
-    }
-    td#action {
-      text-align: end;
-      width: 50px;
+  div#div1 {
+    display: flex;
+    ul {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding-right: 60px;
-      button#buttonEditar {
-        background: none;
-        border: 0;
-        color: #4d85ee;
-      }
-      button#buttonApagar {
-        background: none;
-        border: 0;
-        color: #de3b3b;
-      }
+      list-style: none;
+      flex-direction: column;
+    }
 
-      button {
-        padding-left: 10px;
-        font-size: 15px;
+    li {
+      display: flex;
+      flex-direction: column;
+      margin-top: 20px;
+
+      input {
+        width: 840px;
+        height: 45px;
+        border-radius: 4px;
+        border: solid 1px #dddddd;
+        background-color: #ffffff;
+        padding: 0 15px;
+      }
+      strong {
+        white-space: nowrap;
+        margin-bottom: 8px;
+      }
+    }
+  }
+  div#div2 {
+    display: flex;
+
+    ul {
+      display: flex;
+      list-style: none;
+      margin-top: 20px;
+    }
+
+    li {
+      display: flex;
+      flex-direction: column;
+      input {
+        width: 270px;
+        height: 45px;
+        border-radius: 4px;
+        border: solid 1px #dddddd;
+        background-color: #ffffff;
+        padding: 0 15px;
+        margin-right: 16px;
+      }
+      input#pricetotal {
+        background: #5555;
+      }
+      strong {
+        white-space: nowrap;
+        margin-bottom: 8px;
       }
     }
   }

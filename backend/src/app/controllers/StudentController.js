@@ -4,17 +4,16 @@ import Student from '../models/Student';
 
 class StudentController {
   async index(req, res) {
-    const students = await Student.findAll();
-
-    return res.json(students);
-  }
-
-  async show(req, res) {
-    const student = await Student.findOne({
-      where: { name: { [Op.like]: req.query.q } },
+    const { q } = req.query;
+    const students = await Student.findAll({
+      where: {
+        name: {
+          [Op.like]: `%${q}%`, // Mudei aqui
+        },
+      },
     });
 
-    return res.json({ student });
+    return res.json(students);
   }
 
   async store(req, res) {

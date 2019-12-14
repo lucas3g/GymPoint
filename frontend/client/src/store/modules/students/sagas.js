@@ -10,8 +10,6 @@ import {
   studentUpdateFailure,
   studentDeleteSuccess,
   studentDeleteFailure,
-  studentListSuccess,
-  sudentListFailure,
 } from './actions';
 
 export function* studentCreate({ payload }) {
@@ -70,19 +68,8 @@ export function* stundetDelete({ id }) {
   }
 }
 
-export function* studentLists() {
-  try {
-    const response = yield call(api.get, 'students');
-
-    yield put(studentListSuccess(response.data));
-  } catch (error) {
-    yield put(sudentListFailure(error.message));
-  }
-}
-
 export default all([
   takeLatest('@student/STUDENT_CREATE_REQUEST', studentCreate),
   takeLatest('@student/STUDENT_UPDATE_REQUEST', studentUpdate),
   takeLatest('@student/STUDENT_DELETE_REQUEST', stundetDelete),
-  takeLatest('@student/STUDENT_LIST_REQUEST', studentLists),
 ]);
