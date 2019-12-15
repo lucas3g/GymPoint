@@ -51,7 +51,7 @@ export default function Enrollments({ history }) {
             <th>PLANO</th>
             <th id="start_date">INÍCIO</th>
             <th id="end_date">TÉRMINO</th>
-            <th>ATIVA</th>
+            <th id="active">ATIVA</th>
             <th />
           </tr>
         </thead>

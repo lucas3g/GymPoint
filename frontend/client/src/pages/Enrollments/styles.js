@@ -96,6 +96,9 @@ export const EnrollmentTable = styled.table`
     th#end_date {
       text-align: center;
     }
+    th#active {
+      text-align: center;
+    }
   }
 
   tbody {

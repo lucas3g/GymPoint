@@ -4,16 +4,21 @@ import Student from '../models/Student';
 
 class StudentController {
   async index(req, res) {
-    const { q } = req.query;
-    const students = await Student.findAll({
-      where: {
-        name: {
-          [Op.like]: `%${q}%`, // Mudei aqui
-        },
-      },
-    });
+    const { q: studentName } = req.query;
 
-    return res.json(students);
+    const response = studentName
+      ? await Student.findAll({
+          where: {
+            name: {
+              [Op.like]: studentName,
+            },
+          },
+        })
+      : await Student.findAll();
+
+    response.sort((a, b) => a.name.localeCompare(b.name));
+
+    res.json(response);
   }
 
   async store(req, res) {

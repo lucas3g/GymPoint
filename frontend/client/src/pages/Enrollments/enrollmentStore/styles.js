@@ -5,7 +5,6 @@ export const Container = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 30px;
-
   header {
     display: flex;
     justify-content: space-between;
@@ -24,7 +23,6 @@ export const Container = styled.div`
       display: flex;
       justify-content: center;
       align-items: center;
-
       button {
         margin-left: 10px;
         height: 44px;
@@ -36,7 +34,6 @@ export const Container = styled.div`
         font-size: 16px;
         border: none;
         transition: background 0.2s;
-
         &:hover {
           background: ${darken(0.1, '#fff')};
         }
@@ -50,7 +47,6 @@ export const Container = styled.div`
         margin-left: 10px;
         width: 237px;
       }
-
       button#voltar {
         height: 44px;
         width: 100px;
@@ -93,13 +89,11 @@ export const EnrollmentForm = styled.div`
   background-color: #fff;
   margin-top: 30px;
   padding: 30px;
-
   form {
     display: flex;
     flex-direction: column;
     margin-top: -30px;
   }
-
   div#div1 {
     display: flex;
     ul {
@@ -107,15 +101,13 @@ export const EnrollmentForm = styled.div`
       list-style: none;
       flex-direction: column;
     }
-
     li {
       display: flex;
       flex-direction: column;
       margin-top: 20px;
-
       input {
         width: 850px;
-        height: 45px;
+        height: 35px;
         border-radius: 4px;
         border: solid 1px #dddddd;
         background-color: #ffffff;
@@ -129,13 +121,11 @@ export const EnrollmentForm = styled.div`
   }
   div#div2 {
     display: flex;
-
     ul {
       display: flex;
       list-style: none;
       margin-top: 20px;
     }
-
     li {
       display: flex;
       flex-direction: column;
@@ -151,15 +141,6 @@ export const EnrollmentForm = styled.div`
       strong {
         white-space: nowrap;
         margin-bottom: 8px;
-      }
-      select {
-        width: 200px;
-        height: 45px;
-        border-radius: 4px;
-        border: solid 1px #dddddd;
-        background-color: #ffffff;
-        padding: 0 15px;
-        margin-right: 16px;
       }
     }
   }
