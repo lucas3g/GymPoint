@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { format, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
+import { MdCheck, MdClose } from 'react-icons/md';
 import { Container, EnrollmentTable } from './styles';
 import api from '~/services/api';
 
@@ -10,8 +11,6 @@ export default function Enrollments({ history }) {
   useEffect(() => {
     async function loadEnrollments() {
       const response = await api.get('matriculations');
-
-      console.tron.log(response.data);
 
       setEnrollments(response.data);
     }
@@ -32,7 +31,9 @@ export default function Enrollments({ history }) {
     });
   }
 
-  function handleDeleteSubmit() {}
+  async function handleDeleteSubmit(id) {
+    await api.delete(`matriculations/${id}`);
+  }
 
   return (
     <Container>
@@ -75,7 +76,7 @@ export default function Enrollments({ history }) {
                   { locale: pt }
                 )}
               </td>
-              <td>{enrollment.active}</td>
+              <td id="active">{enrollment.active  === false ? <MdClose size={18} color="#ff0000" /> : <MdCheck size={18} color="#0dff00" />}</td>
               <td id="action">
                 <button
                   id="buttonEditar"

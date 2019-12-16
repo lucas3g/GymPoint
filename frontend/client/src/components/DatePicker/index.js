@@ -39,9 +39,11 @@ export default function DatePickerInput({ name, setChange, selectedDate }) {
         selected={selected}
         onChange={handleChange}
         locale={pt}
-        dateFormat="P"
+        dateFormat="dd/MM/yyyy"
         placeholderText="Escolha a data"
         ref={ref}
+        minDate={new Date()}
+        withPortal
       />
     </>
   );

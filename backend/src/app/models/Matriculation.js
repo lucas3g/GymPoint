@@ -15,7 +15,7 @@ class Matriculation extends Model {
           ]),
           get() {
             return (
-              isBefore(this.get('start_date'), new Date()) &&
+              isAfter(this.get('start_date'), new Date()) &&
               isAfter(this.get('end_date'), new Date())
             );
           },

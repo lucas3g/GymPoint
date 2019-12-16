@@ -22,34 +22,42 @@ export default function Enrollments({ history }) {
   const { enrollment } = history.location.state;
   const { store } = history.location.state;
   const [plans, setPlans] = useState([]);
-  const [plan, setPlan] = useState({});
+  const [planList, setPlanList] = useState({});
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
 
   const [initialData, setInitialData] = useState({});
 
-  console.tron.log(enrollment);
-
   const schema = Yup.object().shape({
     student_id: Yup.string().required('Nome é obrigatório!'),
     plan_id: Yup.string().required('Plano é obrigatório!'),
-    start_date: Yup.string().required('Data é obrigatoria!'),
+    start_date: Yup.date().required('Data é obrigatoria!'),
   });
 
   async function handleCreateSubmit(data) {
     const { student, plan, start_date } = data;
-    console.tron.log(student, plan, start_date);
-    try {
+    console.tron.log({
+      student_id: student.value,
+      plan_id: plan.value,
+      start_date,
+    });
+
       await api.post('/matriculations', {
         student_id: student.value,
         plan_id: plan.value,
-        start_date,
+        start_date: data.start_date,
+      })
+      .then(function (response) {
+        console.tron.log(response);
+        toast.success('Matrícula realizada com sucesso!');
+        history.push('/enrollments');
+      })
+      .catch(function (error) {
+        toast.error(error);
+        console.tron.log(error);
       });
-      toast.success('Matrícula realizada com sucesso!');
-      history.push('/enrollments');
-    } catch (erro) {
-      toast.error(erro);
-    }
+
+
   }
 
   async function loadStudents(inputValue) {
@@ -88,10 +96,10 @@ export default function Enrollments({ history }) {
   }
 
   const end_date = useMemo(() => {
-    if (!plan.duration) {
+    if (!planList.duration) {
       return '';
     }
-    const { duration } = plan;
+    const { duration } = planList;
     const formattedDate = format(
       addMonths(startDate, duration),
       "dd'/'MM'/'yyyy",
@@ -100,13 +108,13 @@ export default function Enrollments({ history }) {
       }
     );
     return formattedDate;
-  }, [plan, startDate]);
+  }, [planList, startDate]);
 
   const totalPrice = useMemo(() => {
-    if (!plan.price) return '';
+    if (!planList.price) return '';
 
-    return formatPrice(Number(plan.duration) * Number(plan.price));
-  }, [plan.duration, plan.price]);
+    return formatPrice(Number(planList.duration) * Number(planList.price));
+  }, [planList.duration, planList.price]);
 
   useEffect(() => {
     loadPlans();
@@ -117,7 +125,17 @@ export default function Enrollments({ history }) {
   }, [end_date, startDate, totalPrice]);
 
   useEffect(() => {
-    setInitialData(enrollment);
+    setInitialData({
+      student: enrollment ? enrollment.student_id : '',
+      plan: enrollment ? enrollment.plan_id : '',
+      start_date: enrollment ? format(parseISO(enrollment.start_date), "dd'/'MM'/'yyyy", {
+        locale: pt,
+      }) : '',
+      end_date: enrollment ?  format(parseISO(enrollment.end_date), "dd'/'MM'/'yyyy", {
+        locale: pt,
+      }): '',
+      price: enrollment ?  enrollment.price: '',
+    });
   }, [enrollment]);
 
   function handleEditEnrollmentReverse() {
@@ -156,7 +174,6 @@ export default function Enrollments({ history }) {
                     name="student"
                     loadOptions={loadStudents}
                     label="ALUNO"
-                    value={enrollment.student_id}
                   />
                 </li>
               </ul>
@@ -168,30 +185,20 @@ export default function Enrollments({ history }) {
                   <Select
                     name="plan"
                     options={plans}
-                    setChange={setPlan}
-                    value={enrollment.plan_id}
+                    setChange={setPlanList}
                   />
                 </li>
                 <li>
                   <strong>DATA DE INÍCIO</strong>
                   <DatePicker
                     name="start_date"
-                    setChange={enrollment.start_date}
+                    setChange={setStartDate}
                     selectedDate={startDate}
                   />
                 </li>
                 <li>
                   <strong>DATA DE TÉRMINO</strong>
-                  <Input
-                    name="end_date"
-                    type="text"
-                    readOnly
-                    disabled
-                    value={format(
-                      parseISO(enrollment.end_date),
-                      "dd'/'MM'/'yyyy"
-                    )}
-                  />
+                  <Input name="end_date" type="text" readOnly available={true} />
                 </li>
                 <li>
                   <strong>VALOR FINAL</strong>
@@ -199,7 +206,9 @@ export default function Enrollments({ history }) {
                     name="totalPrice"
                     type="text"
                     placeholder="0.00"
-                    value={enrollment.price}
+                    readOnly
+                    available={true}
+                    value={enrollment ? enrollment.price : totalPrice}
                   />
                 </li>
               </ul>

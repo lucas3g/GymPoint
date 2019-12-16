@@ -108,13 +108,13 @@ export const EnrollmentTable = styled.table`
       font-size: 16px;
       color: #666666;
     }
-    tr:hover {
-      background-color: #eee;
-    }
     td#start_date {
       text-align: center;
     }
     td#end_date {
+      text-align: center;
+    }
+    td#active {
       text-align: center;
     }
     td#action {
@@ -123,7 +123,7 @@ export const EnrollmentTable = styled.table`
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding-right: 60px;
+      padding-right: 80px;
       button#buttonEditar {
         background: none;
         border: 0;

@@ -134,7 +134,7 @@ export const EnrollmentForm = styled.div`
         height: 45px;
         border-radius: 4px;
         border: solid 1px #dddddd;
-        background-color: #ffffff;
+        background-color: ${props => (props.available ? '#9999' : '#ffff')};
         padding: 0 15px;
         margin-right: 16px;
       }
