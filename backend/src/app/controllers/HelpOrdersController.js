@@ -29,7 +29,16 @@ class HelpOrdersController {
   }
 
   async index(req, res) {
-    const answer = await HelpOrder.findAll({ where: { answer: null } });
+    const answer = await HelpOrder.findAll({
+      where: { answer: null },
+      include: [
+        {
+          model: Student,
+          as: 'student',
+          attributes: ['name'],
+        },
+      ],
+    });
 
     if (!answer) {
       res.status(404).json({ message: 'No questions to answer' });

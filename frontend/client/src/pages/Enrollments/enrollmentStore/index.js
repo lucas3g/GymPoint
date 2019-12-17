@@ -56,8 +56,6 @@ export default function Enrollments({ history }) {
         toast.error(error);
         console.tron.log(error);
       });
-
-
   }
 
   async function loadStudents(inputValue) {
