@@ -33,7 +33,7 @@ export default function HelpOrders({ history }) {
 
   return (
     <Container>
-      <Header>Pedidos de auxílio</Header>
+      <Header>Pedidos de Auxílio</Header>
       <Box>
         {helpOrders.length === 0 ? (
           <strong className="nohelp">Sem pedidos de auxílio no momento</strong>

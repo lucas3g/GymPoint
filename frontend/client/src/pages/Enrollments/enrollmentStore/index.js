@@ -24,9 +24,19 @@ export default function Enrollments({ history }) {
   const [plans, setPlans] = useState([]);
   const [planList, setPlanList] = useState({});
   const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
 
-  const [initialData, setInitialData] = useState({});
+  const [initialData, setInitialData] = useState({
+    student: enrollment?.student_id,
+    plan: enrollment?.plan_id,
+    start_date: format(parseISO(enrollment?.start_date), "dd'/'MM'/'yyyy", {
+      locale: pt,
+    }),
+    end_date: format(parseISO(enrollment?.end_date), "dd'/'MM'/'yyyy", {
+      locale: pt,
+    }),
+    price: enrollment?.price,
+  });
+
 
   const schema = Yup.object().shape({
     student_id: Yup.string().required('Nome é obrigatório!'),
@@ -122,20 +132,6 @@ export default function Enrollments({ history }) {
     });
   }, [end_date, startDate, totalPrice]);
 
-  useEffect(() => {
-    setInitialData({
-      student: enrollment ? enrollment.student_id : '',
-      plan: enrollment ? enrollment.plan_id : '',
-      start_date: enrollment ? format(parseISO(enrollment.start_date), "dd'/'MM'/'yyyy", {
-        locale: pt,
-      }) : '',
-      end_date: enrollment ?  format(parseISO(enrollment.end_date), "dd'/'MM'/'yyyy", {
-        locale: pt,
-      }): '',
-      price: enrollment ?  enrollment.price: '',
-    });
-  }, [enrollment]);
-
   function handleEditEnrollmentReverse() {
     history.push('/enrollments');
   }
@@ -196,7 +192,7 @@ export default function Enrollments({ history }) {
                 </li>
                 <li>
                   <strong>DATA DE TÉRMINO</strong>
-                  <Input name="end_date" type="text" readOnly available={true} />
+                  <Input name="end_date" type="text" readOnly />
                 </li>
                 <li>
                   <strong>VALOR FINAL</strong>
@@ -205,7 +201,6 @@ export default function Enrollments({ history }) {
                     type="text"
                     placeholder="0.00"
                     readOnly
-                    available={true}
                     value={enrollment ? enrollment.price : totalPrice}
                   />
                 </li>

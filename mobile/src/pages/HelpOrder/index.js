@@ -46,7 +46,7 @@ export default function HelpOrder({ navigation }) {
             <Help onPress={() => navigation.navigate("Question", { item })}>
               <HelpTitle>
                 <HelpAnswer resp={item.answer_at}>
-                  {item.answer_at ? "Respondido" : "Sem reposta"}
+                  {item.answer_at ? "Respondido" : "Sem resposta"}
                 </HelpAnswer>
                 <HelpTime>
                   {item.answer_at

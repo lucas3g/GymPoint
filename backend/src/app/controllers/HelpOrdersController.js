@@ -16,6 +16,7 @@ class HelpOrdersController {
 
     const searchHO = await HelpOrder.findAll({
       where: { student_id: checkStudentExists.id },
+      order: ['id', 'DESC'],
       include: [
         {
           model: Student,
