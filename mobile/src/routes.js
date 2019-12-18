@@ -2,6 +2,7 @@ import React from "react";
 
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createBottomTabNavigator } from "react-navigation-tabs";
+import { createStackNavigator } from "react-navigation-stack";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import SignIn from "./pages/SignIn";
 import Checkin from "./pages/Checkin";
@@ -19,7 +20,7 @@ export default (signedIn = false) =>
         App: createBottomTabNavigator(
           {
             Checkin,
-            screen: createSwitchNavigator(
+            screen: createStackNavigator(
               {
                 HelpOrder,
                 Question,

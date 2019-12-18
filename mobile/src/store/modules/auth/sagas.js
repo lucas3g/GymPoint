@@ -35,7 +35,7 @@ export function* signIn({ payload }) {
 }
 
 export function signOut() {
-  // history.push("/");
+  //history.push("/");
 }
 
 export default all([

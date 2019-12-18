@@ -6,11 +6,11 @@ export const Container = styled.View`
 `;
 
 export const HeaderPrincipal = styled.View`
-  width: 100%;
+  width: 400px;
   height: 64px;
   background-color: #ffffff;
-
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
+  flex-direction: row;
 `;
