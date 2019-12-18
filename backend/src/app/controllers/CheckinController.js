@@ -7,7 +7,15 @@ import Student from '../models/Student';
 class CheckinController {
   async index(req, res) {
     const checkins = await Checkin.findAll({
-      where: { student_id: req.params.id },
+      where: {
+        student_id: req.params.id,
+        createdAt: {
+          [Op.gte]: moment()
+            .subtract(7, 'days')
+            .toDate(),
+        },
+      },
+      order: [['id', 'DESC']],
       include: [
         {
           model: Student,

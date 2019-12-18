@@ -5,6 +5,8 @@ import HelpOrder from '../models/HelpOrder';
 
 import AnswerMail from '../jobs/AnswerMail';
 import Queue from '../../lib/Queue';
+import { Op } from 'sequelize';
+import moment from 'moment';
 
 class HelpOrdersController {
   async show(req, res) {
@@ -15,8 +17,10 @@ class HelpOrdersController {
     }
 
     const searchHO = await HelpOrder.findAll({
-      where: { student_id: checkStudentExists.id },
-      order: ['id', 'DESC'],
+      where: {
+        student_id: checkStudentExists.id,
+      },
+      order: [['createdAt', 'DESC']],
       include: [
         {
           model: Student,
