@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 import { Form, Input } from '@rocketseat/unform';
 
-import { format, addMonths, parseISO } from 'date-fns';
+import { format, addMonths, addDays, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt-BR';
 
 import DatePicker from '~/components/DatePicker';
@@ -19,30 +19,21 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { Container, ContentForm, EnrollmentForm } from './styles';
 
 export default function Enrollments({ history }) {
+  const schema = Yup.object().shape({
+    student_id: Yup.string().required('Aluno obrigatório'),
+    plan_id: Yup.string().required('Plano obrigatório'),
+    start_date: Yup.date().required('Data obrigatória'),
+  });
+
   const { enrollment } = history.location.state;
   const { store } = history.location.state;
   const [plans, setPlans] = useState([]);
   const [planList, setPlanList] = useState({});
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(addDays(new Date(), 1));
 
-  const [initialData, setInitialData] = useState({
-    student: enrollment?.student_id,
-    plan: enrollment?.plan_id,
-    start_date: format(parseISO(enrollment?.start_date), "dd'/'MM'/'yyyy", {
-      locale: pt,
-    }),
-    end_date: format(parseISO(enrollment?.end_date), "dd'/'MM'/'yyyy", {
-      locale: pt,
-    }),
-    price: enrollment?.price,
-  });
+  const [initialData, setInitialData] = useState({});
 
-
-  const schema = Yup.object().shape({
-    student_id: Yup.string().required('Nome é obrigatório!'),
-    plan_id: Yup.string().required('Plano é obrigatório!'),
-    start_date: Yup.date().required('Data é obrigatoria!'),
-  });
+  console.tron.log(enrollment);
 
   async function handleCreateSubmit(data) {
     const { student, plan, start_date } = data;
@@ -58,12 +49,11 @@ export default function Enrollments({ history }) {
         start_date: data.start_date,
       })
       .then(function (response) {
-        console.tron.log(response);
         toast.success('Matrícula realizada com sucesso!');
         history.push('/enrollments');
       })
       .catch(function (error) {
-        toast.error(error);
+        toast.error(error.message);
         console.tron.log(error);
       });
   }
@@ -159,6 +149,7 @@ export default function Enrollments({ history }) {
             initialData={initialData}
             onSubmit={store ? handleCreateSubmit : handleUpdateSubmit}
             id="formEnrollment"
+            schema={schema}
           >
             <div id="div1">
               <ul>
@@ -168,6 +159,7 @@ export default function Enrollments({ history }) {
                     name="student"
                     loadOptions={loadStudents}
                     label="ALUNO"
+                    // defaultValueSelected={{label: enrollment?.student.name, value: enrollment?.student_id}}
                   />
                 </li>
               </ul>
@@ -180,6 +172,7 @@ export default function Enrollments({ history }) {
                     name="plan"
                     options={plans}
                     setChange={setPlanList}
+                   // defaultValueSelected={{ label: enrollment?.plan.title, value: enrollment?.plan_id }}
                   />
                 </li>
                 <li>
@@ -192,7 +185,7 @@ export default function Enrollments({ history }) {
                 </li>
                 <li>
                   <strong>DATA DE TÉRMINO</strong>
-                  <Input name="end_date" type="text" readOnly />
+                  <Input name="end_date" type="text" readOnly value={enrollment ? format(parseISO(enrollment.end_date), "dd'/'MM'/'yyyy", { locale: pt }) : format(addDays(new Date(),1), "dd'/'MM'/'yyyy", { locale: pt }) }/>
                 </li>
                 <li>
                   <strong>VALOR FINAL</strong>
