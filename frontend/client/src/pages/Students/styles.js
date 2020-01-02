@@ -102,9 +102,6 @@ export const StudentTable = styled.table`
       font-size: 16px;
       color: #666666;
     }
-    tr:hover {
-      background-color: #eee;
-    }
     td#email {
       width: 300px;
     }

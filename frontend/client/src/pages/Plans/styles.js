@@ -102,9 +102,7 @@ export const PlanTable = styled.table`
       font-size: 16px;
       color: #666666;
     }
-    tr:hover {
-      background-color: #eee;
-    }
+    
     td#title {
       width: 500px;
     }

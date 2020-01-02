@@ -30,6 +30,10 @@ export default createGlobalStyle`
     font: 14px 'Roboto', sans-serif;
   }
 
+  body, html, #root { 
+    height: 100%; 
+  }
+
   a {
     text-decoration: none;
   }
