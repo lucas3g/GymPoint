@@ -28,11 +28,8 @@ export default function plan(state = INITIAL_STATE, { type, payload, error }) {
         break;
       }
       case '@plan/PLAN_UPDATE_SUCCESS': {
-        const planIndex = draft.data.findIndex(p => p.id === payload.data.id);
-        if (planIndex >= 0) {
-          draft.data[planIndex] = payload.data;
-          draft.loading = false;
-        }
+        draft.data = payload.data;
+        draft.loading = false;
         break;
       }
       case '@plan/PLAN_UDPATE_FAILURE': {
@@ -45,11 +42,8 @@ export default function plan(state = INITIAL_STATE, { type, payload, error }) {
         break;
       }
       case '@plan/PLAN_DELETE_SUCCESS': {
-        const planIndex = draft.data.findIndex(p => p.id === payload.data.id);
-        if (planIndex >= 0) {
-          draft.data[planIndex] = payload.data.splice(planIndex, 1);
-          draft.loading = false;
-        }
+        draft.data = payload.data;
+        draft.loading = false;
         break;
       }
       case '@plan/PLAN_DELETE_FAILURE': {

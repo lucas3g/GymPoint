@@ -14,6 +14,8 @@ export function* signIn({ payload }) {
       password,
     });
 
+    const name = response.data?.user.name;
+
     const { token } = response.data;
 
     if (!token) {
@@ -23,7 +25,7 @@ export function* signIn({ payload }) {
 
     api.defaults.headers.Authorization = `Bearer ${token}`;
 
-    yield put(signInSucess(token));
+    yield put(signInSucess(token, name));
 
     history.push('/students');
   } catch (err) {

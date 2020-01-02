@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { format, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 import { MdCheck, MdClose } from 'react-icons/md';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 import { Container, EnrollmentTable } from './styles';
 import api from '~/services/api';
 
 export default function Enrollments({ history }) {
   const [enrollments, setEnrollments] = useState([]);
-
+  const MySwal = withReactContent(Swal);
   useEffect(() => {
     async function loadEnrollments() {
       const response = await api.get('matriculations');
@@ -32,7 +34,25 @@ export default function Enrollments({ history }) {
   }
 
   async function handleDeleteSubmit(id) {
-    await api.delete(`matriculations/${id}`);
+    MySwal.fire({
+      title: 'Tem certeza?',
+      text: "Você não poderá reverter isso!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Sim, excluir!'
+    }).then((result) => {
+      if (result.value) {
+        MySwal.fire(
+          'Exclusão!',
+          'Sua matricula foi excluida.',
+          'success'
+        )
+        api.delete(`matriculations/${id}`);
+      }
+    })
   }
 
   return (
@@ -59,24 +79,24 @@ export default function Enrollments({ history }) {
 
         {enrollments.map(enrollment => (
           <tbody>
-            <tr key={String(enrollment.id)}>
-              <td>{enrollment.student.name}</td>
-              <td>{enrollment.plan.title}</td>
+            <tr key={String(enrollment?.id)}>
+              <td>{enrollment?.student?.name}</td>
+              <td>{enrollment?.plan?.title}</td>
               <td id="start_date">
                 {format(
-                  parseISO(enrollment.start_date),
+                  parseISO(enrollment?.start_date),
                   "dd 'de' MMMM 'de' yyyy",
                   { locale: pt }
                 )}
               </td>
               <td id="end_date">
                 {format(
-                  parseISO(enrollment.end_date),
+                  parseISO(enrollment?.end_date),
                   "dd 'de' MMMM 'de' yyyy",
                   { locale: pt }
                 )}
               </td>
-              <td id="active">{enrollment.active  === false ? <MdClose size={18} color="#ff0000" /> : <MdCheck size={18} color="#0dff00" />}</td>
+              <td id="active">{enrollment?.active  === false ? <MdClose size={18} color="#ff0000" /> : <MdCheck size={18} color="#0dff00" />}</td>
               <td id="action">
                 <button
                   id="buttonEditar"
@@ -88,7 +108,7 @@ export default function Enrollments({ history }) {
                 <button
                   id="buttonApagar"
                   type="button"
-                  onClick={() => handleDeleteSubmit(enrollment.id)}
+                  onClick={() => handleDeleteSubmit(enrollment?.id)}
                 >
                   Apagar
                 </button>

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 import { Container, StudentTable } from './styles';
 import api from '~/services/api';
 
@@ -9,11 +11,12 @@ export default function Students({ history }) {
   const dispatch = useDispatch();
   const [searchStudent, setSearchStudent] = useState('');
   const [students, setStudents] = useState([]);
+  const MySwal = withReactContent(Swal);
 
   useEffect(() => {
     async function searchStudentByName() {
       const response = await api.get(
-        !searchStudent ? `students?q=${searchStudent}` : 'students'
+        searchStudent ? `students?q=${searchStudent}` : 'students'
       );
 
       console.tron.log(response.data);
@@ -24,7 +27,26 @@ export default function Students({ history }) {
   }, [searchStudent, students]);
 
   function handleDeleteSubmit(id) {
-    dispatch(studentDeleteRequest(id));
+    MySwal.fire({
+      title: 'Tem certeza?',
+      text: "Você não poderá reverter isso!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Sim, excluir!'
+    }).then((result) => {
+      if (result.value) {
+        MySwal.fire(
+          'Exclusão!',
+          'O estudante foi excluido.',
+          'success'
+        )
+        dispatch(studentDeleteRequest(id));
+      }
+    })
+    
   }
 
   function handleEditStudent(student) {

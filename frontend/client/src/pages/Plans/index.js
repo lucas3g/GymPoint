@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 import { Container, PlanTable } from './styles';
 import api from '~/services/api';
 
@@ -8,6 +10,7 @@ import { planDeleteRequest } from '~/store/modules/plans/actions';
 export default function Students({ history }) {
   const dispatch = useDispatch();
   const [plans, setPlans] = useState([]);
+  const MySwal = withReactContent(Swal);
 
   useEffect(() => {
     async function listPlans() {
@@ -21,7 +24,25 @@ export default function Students({ history }) {
   }, [plans]);
 
   function handleDeleteSubmit(id) {
-    dispatch(planDeleteRequest(id));
+    MySwal.fire({
+      title: 'Tem certeza?',
+      text: "Você não poderá reverter isso!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Sim, excluir!'
+    }).then((result) => {
+      if (result.value) {
+        MySwal.fire(
+          'Exclusão!',
+          'O plano foi excluido.',
+          'success'
+        )
+        dispatch(planDeleteRequest(id));
+      }
+    })
   }
 
   function handleEditPlan(plan) {

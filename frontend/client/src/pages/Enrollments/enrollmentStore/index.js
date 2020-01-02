@@ -149,7 +149,6 @@ export default function Enrollments({ history }) {
             initialData={initialData}
             onSubmit={store ? handleCreateSubmit : handleUpdateSubmit}
             id="formEnrollment"
-            schema={schema}
           >
             <div id="div1">
               <ul>
@@ -185,7 +184,7 @@ export default function Enrollments({ history }) {
                 </li>
                 <li>
                   <strong>DATA DE TÉRMINO</strong>
-                  <Input name="end_date" type="text" readOnly value={enrollment ? format(parseISO(enrollment.end_date), "dd'/'MM'/'yyyy", { locale: pt }) : format(addDays(new Date(),1), "dd'/'MM'/'yyyy", { locale: pt }) }/>
+                  <Input name="end_date" type="text" readOnly />
                 </li>
                 <li>
                   <strong>VALOR FINAL</strong>

@@ -35,9 +35,10 @@ export const Content = styled.div`
       font-style: normal;
       line-height: normal;
       letter-spacing: normal;
-      color: #444444;
+      color: #000000
       margin-left: 20px;
     }
+
   }
 
   aside {
@@ -68,6 +69,7 @@ export const Profile = styled.div`
       color: #de3b3b;
       background: none;
       border: none;
+      margin-left: 5px;
     }
   }
 `;
