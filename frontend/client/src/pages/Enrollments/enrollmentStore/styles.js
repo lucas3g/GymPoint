@@ -129,9 +129,12 @@ export const EnrollmentForm = styled.div`
     li {
       display: flex;
       flex-direction: column;
+      input:last-child{
+        height: 50px;  
+      }
       input {
         width: 200px;
-        height: 45px;
+        height: 35px;
         border-radius: 4px;
         border: solid 1px #dddddd;
         background-color: ${props => (props.available ? '#9999' : '#ffff')};

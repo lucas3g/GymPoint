@@ -24,10 +24,10 @@ export default function ReactSelect({
   }, [ref.current, fieldName]); // eslint-disable-line
 
   function handleChange(data) {
-    setValue(data);
     if (setChange) {
       setChange(data);
     }
+    setValue(data);
   }
 
   return (

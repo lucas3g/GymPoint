@@ -22,7 +22,7 @@ export default function Enrollments({ history }) {
   function handleEditEnrollment(enrollment) {
     history.push({
       pathname: '/enrollmentStore',
-      state: { store: false, enrollment },
+      state: { store: false,  enrollment},
     });
   }
 

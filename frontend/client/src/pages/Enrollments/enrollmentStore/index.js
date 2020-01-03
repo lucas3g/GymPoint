@@ -30,10 +30,28 @@ export default function Enrollments({ history }) {
   const [plans, setPlans] = useState([]);
   const [planList, setPlanList] = useState({});
   const [startDate, setStartDate] = useState(addDays(new Date(), 1));
+  const [dados, setDados] = useState({});
 
   const [initialData, setInitialData] = useState({});
 
-  console.tron.log(enrollment);
+  useEffect(() => {
+    if (!store) {
+      async function loadEnrollment() {
+        const dados = await api.get(`matriculations/${enrollment?.id}`);
+
+        setDados(dados.data);
+        setInitialData({
+          end_date: format(
+            parseISO(dados.data.end_date),
+            "dd'/'MM'/'yyyy",
+            { locale: pt }
+          ),
+          totalPrice: formatPrice(dados.data.price),
+        })
+      }
+      loadEnrollment();
+    }
+  }, []);
 
   async function handleCreateSubmit(data) {
     const { student, plan, start_date } = data;
@@ -43,17 +61,17 @@ export default function Enrollments({ history }) {
       start_date,
     });
 
-      await api.post('/matriculations', {
-        student_id: student.value,
-        plan_id: plan.value,
-        start_date: data.start_date,
-      })
+    await api.post('/matriculations', {
+      student_id: student.value,
+      plan_id: plan.value,
+      start_date: data.start_date,
+    })
       .then(function (response) {
         toast.success('Matrícula realizada com sucesso!');
         history.push('/enrollments');
       })
       .catch(function (error) {
-        toast.error(error.message);
+        toast.error('Aluno já está matriculado!');
         console.tron.log(error);
       });
   }
@@ -73,25 +91,42 @@ export default function Enrollments({ history }) {
     return response;
   }
 
-  function handleUpdateSubmit(data) {}
-
-  async function loadPlans() {
-    const response = await api
-      .get('plans', {
-        params: { page: 1, per_page: 100 },
+  async function handleUpdateSubmit(data) {
+    const { student, plan, start_date, price } = data;
+    await api.put(`/matriculations/${enrollment?.id}`, {
+      student_id: student.value,
+      plan_id: plan.value,
+      start_date: data.start_date,
+      price: data.totalPrice,
+    })
+      .then(function (response) {
+        toast.success('Matrícula atualizada com sucesso!');
+        history.push('/enrollments');
       })
-      .then(r => r.data)
-      .then(d =>
-        d.map(p => ({
-          label: p.title,
-          value: p.id,
-          duration: p.duration,
-          price: p.price,
-        }))
-      );
-
-    setPlans(response);
+      .catch(function (error) {
+        toast.error('Erro ao atualizar matricula!');
+        console.tron.log(error);
+      });
   }
+  useMemo(() => {
+    async function loadPlans() {
+      const response = await api
+        .get('plans', {
+          params: { page: 1, per_page: 100 },
+        })
+        .then(r => r.data)
+        .then(d =>
+          d.map(p => ({
+            label: p.title,
+            value: p.id,
+            duration: p.duration,
+            price: p.price,
+          }))
+        );
+      setPlans(response);
+    }
+    loadPlans();
+  }, []);
 
   const end_date = useMemo(() => {
     if (!planList.duration) {
@@ -115,12 +150,11 @@ export default function Enrollments({ history }) {
   }, [planList.duration, planList.price]);
 
   useEffect(() => {
-    loadPlans();
     setInitialData({
       end_date,
       totalPrice,
     });
-  }, [end_date, startDate, totalPrice]);
+  }, [end_date]);
 
   function handleEditEnrollmentReverse() {
     history.push('/enrollments');
@@ -158,7 +192,7 @@ export default function Enrollments({ history }) {
                     name="student"
                     loadOptions={loadStudents}
                     label="ALUNO"
-                    // defaultValueSelected={{label: enrollment?.student.name, value: enrollment?.student_id}}
+                    defaultValueSelected={!store ? { label: dados?.student_id + ' - ' + dados.student?.name, value: dados?.student_id } : null}
                   />
                 </li>
               </ul>
@@ -171,7 +205,7 @@ export default function Enrollments({ history }) {
                     name="plan"
                     options={plans}
                     setChange={setPlanList}
-                   // defaultValueSelected={{ label: enrollment?.plan.title, value: enrollment?.plan_id }}
+                    defaultValueSelected={!store ? { label: dados.plan?.title, value: dados?.plan_id } : null}
                   />
                 </li>
                 <li>
@@ -184,7 +218,7 @@ export default function Enrollments({ history }) {
                 </li>
                 <li>
                   <strong>DATA DE TÉRMINO</strong>
-                  <Input name="end_date" type="text" readOnly />
+                  <Input name="end_date" type="text" readOnly placeholder="dd/mm/aaaa" />
                 </li>
                 <li>
                   <strong>VALOR FINAL</strong>
@@ -193,7 +227,6 @@ export default function Enrollments({ history }) {
                     type="text"
                     placeholder="0.00"
                     readOnly
-                    value={enrollment ? enrollment.price : totalPrice}
                   />
                 </li>
               </ul>

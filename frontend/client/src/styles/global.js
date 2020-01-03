@@ -18,7 +18,7 @@ export default createGlobalStyle`
   }
 
   html, body, #root {
-    height: 100%;
+    height: 100vh;
     width: 100%;
   }
 
@@ -28,10 +28,6 @@ export default createGlobalStyle`
 
   body, input, button {
     font: 14px 'Roboto', sans-serif;
-  }
-
-  body, html, #root { 
-    height: 100%; 
   }
 
   a {

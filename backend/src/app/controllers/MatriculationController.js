@@ -10,6 +10,35 @@ import UpdateMatriculationMail from '../jobs/UpdateMatriculationMail';
 import Queue from '../../lib/Queue';
 
 class MatriculationController {
+  async show(req, res) {
+    const matriculations = await Matriculation.findOne({
+      where: { id: req.params.id },
+      attributes: [
+        'id',
+        'start_date',
+        'end_date',
+        'price',
+        'active',
+        'student_id',
+        'plan_id',
+      ],
+      include: [
+        {
+          model: Student,
+          as: 'student',
+          attributes: ['name'],
+        },
+        {
+          model: Plan,
+          as: 'plan',
+          attributes: ['title'],
+        },
+      ],
+    });
+
+    return res.json(matriculations);
+  }
+
   async index(req, res) {
     const matriculations = await Matriculation.findAll({
       attributes: [
@@ -125,6 +154,14 @@ class MatriculationController {
 
     if (!checkMatriculationExists) {
       return res.status(400).json({ error: 'Matriculation not found!' });
+    }
+
+    const checkStudentExists = await Matriculation.findByPk(
+      req.body.student_id
+    );
+
+    if (checkStudentExists) {
+      return res.status(400).json({ error: 'Already Enrolled Student' });
     }
 
     const { student_id, plan_id, start_date } = req.body;
