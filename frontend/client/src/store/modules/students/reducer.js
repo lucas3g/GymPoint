@@ -31,13 +31,8 @@ export default function student(
         break;
       }
       case '@student/STUDENT_UPDATE_SUCCESS': {
-        const studentIndex = draft.data.findIndex(
-          p => p.id === payload.data.id
-        );
-        if (studentIndex >= 0) {
-          draft.data[studentIndex] = payload.data;
-          draft.loading = false;
-        }
+        draft.data = payload.data;
+        draft.loading = false;
         break;
       }
       case '@student/STUDENT_UDPATE_FAILURE': {
@@ -50,13 +45,8 @@ export default function student(
         break;
       }
       case '@student/STUDENT_DELETE_SUCCESS': {
-        const studentIndex = draft.data.findIndex(
-          p => p.id === payload.data.id
-        );
-        if (studentIndex >= 0) {
-          draft.data[studentIndex] = payload.data.splice(studentIndex, 1);
-          draft.loading = false;
-        }
+        draft.data = payload.data;
+        draft.loading = false;
         break;
       }
       case '@student/STUDENT_DELETE_FAILURE': {

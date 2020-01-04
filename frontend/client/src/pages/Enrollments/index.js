@@ -22,7 +22,7 @@ export default function Enrollments({ history }) {
   function handleEditEnrollment(enrollment) {
     history.push({
       pathname: '/enrollmentStore',
-      state: { store: false,  enrollment},
+      state: { store: false, enrollment },
     });
   }
 
@@ -96,7 +96,7 @@ export default function Enrollments({ history }) {
                   { locale: pt }
                 )}
               </td>
-              <td id="active">{enrollment?.active  === false ? <MdClose size={18} color="#ff0000" /> : <MdCheck size={18} color="#0dff00" />}</td>
+              <td id="active">{enrollment?.active === false ? <MdClose size={18} color="#ff0000" /> : <MdCheck size={18} color="#0dff00" />}</td>
               <td id="action">
                 <button
                   id="buttonEditar"

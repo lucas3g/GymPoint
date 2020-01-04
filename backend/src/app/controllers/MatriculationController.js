@@ -217,7 +217,7 @@ class MatriculationController {
 
     await Matriculation.destroy({ where: { id: req.params.id } });
 
-    return res.json({ error: 'Matriculation deleted with success!' });
+    return res.json({ message: 'Matriculation deleted with success!' });
   }
 }
 

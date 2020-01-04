@@ -129,8 +129,8 @@ export const EnrollmentForm = styled.div`
     li {
       display: flex;
       flex-direction: column;
-      input:last-child{
-        height: 50px;  
+      input:last-child {
+        height: 50px;
       }
       input {
         width: 200px;

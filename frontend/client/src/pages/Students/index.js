@@ -29,24 +29,19 @@ export default function Students({ history }) {
   function handleDeleteSubmit(id) {
     MySwal.fire({
       title: 'Tem certeza?',
-      text: "Você não poderá reverter isso!",
+      text: 'Você não poderá reverter isso!',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       cancelButtonText: 'Cancelar',
-      confirmButtonText: 'Sim, excluir!'
-    }).then((result) => {
+      confirmButtonText: 'Sim, excluir!',
+    }).then(result => {
       if (result.value) {
-        MySwal.fire(
-          'Exclusão!',
-          'O estudante foi excluido.',
-          'success'
-        )
+        MySwal.fire('Exclusão!', 'O estudante foi excluido.', 'success');
         dispatch(studentDeleteRequest(id));
       }
-    })
-    
+    });
   }
 
   function handleEditStudent(student) {

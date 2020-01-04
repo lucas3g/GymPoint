@@ -85,7 +85,6 @@ export const StudentTable = styled.table`
   background-color: #fff;
   margin-top: 30px;
   padding: 30px;
-
   thead {
     font-family: Roboto;
     color: #444;

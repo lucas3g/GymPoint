@@ -10,7 +10,7 @@ export default function ReactSelect({
   defaultValueSelected,
 }) {
   const { fieldName, registerField, defaultValue } = useField(name);
-  const [value, setValue] = useState(defaultValue && defaultValue);
+  const [value, setValue] = useState(defaultValue);
   const ref = useRef();
 
   useEffect(() => setValue(defaultValueSelected), [defaultValueSelected]);
