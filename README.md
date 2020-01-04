@@ -21,13 +21,13 @@
 ## 📝 Table of Contents
 
 - [Sobre](#about)
-- [Primeiros passos] (# getting_started)
-- [Uso] (# uso)
-- [Construído usando] (# built_using)
-- [Autores] (# autores)
-- [TODO] (# todo)
+- [Primeiros passos] (#getting_started)
+- [Uso] (#uso)
+- [Construído usando] (#built_using)
+- [Autores] (#autores)
+- [TODO] (#todo)
 
-## 🧐 About <a name = "about"></a>
+## 🧐 Sobre <a name = "about"></a>
 
 Este projeto foi desenvolvido para ser um aplicativo de stack application , incluindo front-end, back-end e móvel, e será usado para a certificação Gostack 9 [Rocketseat] (https://github.com/rocketseat).
 
@@ -159,7 +159,8 @@ Na Página de Pedidos de Ajuda, você precisa usar "Puxar para atualizar" para v
 
 ## ✍️ Autores <a name = "authors"></a>
 
-- [@rockeseat](https://rocketseat.com.br/bootcamp) - Idea & Initial template
+- [@rockeseat](https://rocketseat.com.br/bootcamp) - 
+Idéia e modelo inicial
 - [@lucas3g](https://github.com/lucas3g) - Back-end, Front-end and Mobile App development
 
 ## TODO <a name="todo"></a>
