@@ -21,11 +21,11 @@
 ## 📝 Table of Contents
 
 - [Sobre](#about)
-- [Primeiros passos] (#getting_started)
-- [Uso] (#uso)
-- [Construído usando] (#built_using)
-- [Autores] (#autores)
-- [TODO] (#todo)
+- [Primeiros passos](#getting_started)
+- [Uso](#uso)
+- [Construído usando](#built_using)
+- [Autores](#autores)
+- [TODO](#todo)
 
 ## 🧐 Sobre <a name = "about"></a>
 
@@ -116,7 +116,7 @@ $ yarn start
 Para executar o aplicativo
 ```
 
-### Mobile (:android: Android Only)
+### Mobile (:iphone: Android Only)
 
 Após executar o back-end, dentro da pasta mobile, execute os comandos abaixo
 
