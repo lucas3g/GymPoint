@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Form, Input } from '@rocketseat/unform';
-
+import * as Yup from 'yup';
 import { Container, ContentForm, StudentForm } from './styles';
 // import api from '../../services/api';
 
@@ -11,10 +11,21 @@ import {
 } from '~/store/modules/students/actions';
 
 export default function StudentStore({ history }) {
+  const schema = Yup.object().shape({
+    name: Yup.string().required('Nome do aluno é obrigatóro'),
+    email: Yup.string()
+      .email()
+      .required('O email do aluno é obrigatório'),
+    age: Yup.number()
+      .integer()
+      .required('A idade do aluno é obrigatória'),
+    weight: Yup.number().required('O peso do aluno é obrigatório'),
+    height: Yup.number().required('A altura do aluno é obrigatória'),
+  });
+
   const dispatch = useDispatch();
   const { student } = history.location.state;
   const { store } = history.location.state;
-
 
   const [initialData, setInitialData] = useState({});
 
@@ -54,6 +65,7 @@ export default function StudentStore({ history }) {
         </header>
         <StudentForm>
           <Form
+            schema={schema}
             initialData={initialData}
             onSubmit={store ? handleCreateSubmit : handleUpdateSubmit}
             id="formStudent"

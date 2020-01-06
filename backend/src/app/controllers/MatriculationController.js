@@ -156,15 +156,15 @@ class MatriculationController {
       return res.status(400).json({ error: 'Matriculation not found!' });
     }
 
-    const checkStudentExists = await Matriculation.findByPk(
-      req.body.student_id
-    );
-
-    if (checkStudentExists) {
-      return res.status(400).json({ error: 'Already Enrolled Student' });
-    }
-
     const { student_id, plan_id, start_date } = req.body;
+
+    const checkMatriculationExistsStudent = await Matriculation.findOne({
+      where: { student_id },
+    });
+
+    if (checkMatriculationExistsStudent) {
+      return res.status(401).json({ error: 'Student already has a plan' });
+    }
 
     const dateStart = startOfDay(parseISO(start_date));
 

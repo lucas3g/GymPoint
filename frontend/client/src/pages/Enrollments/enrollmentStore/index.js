@@ -20,9 +20,13 @@ import { Container, ContentForm, EnrollmentForm } from './styles';
 
 export default function Enrollments({ history }) {
   const schema = Yup.object().shape({
-    student_id: Yup.string().required('Aluno obrigatório'),
-    plan_id: Yup.string().required('Plano obrigatório'),
-    start_date: Yup.date().required('Data obrigatória'),
+    start_date: Yup.date().required('teste'),
+    student_id: Yup.number()
+      .integer()
+      .required('teste'),
+    plan_id: Yup.number()
+      .integer()
+      .required('teste'),
   });
 
   const { enrollment } = history.location.state;
@@ -204,7 +208,9 @@ export default function Enrollments({ history }) {
                   <Select
                     name="plan"
                     options={plans}
-                    setChange={setPlanList}
+                    setChange={e => {
+                      setPlanList(e)
+                    }}
                     defaultValueSelected={!store ? { label: dados.plan?.title, value: dados?.plan_id } : null}
                   />
                 </li>

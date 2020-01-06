@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { Form, Input } from '@rocketseat/unform';
+import * as Yup from 'yup';
 import NumberFormat from 'react-number-format';
 import { Container, ContentForm, PlanForm } from './styles';
+
 
 import {
   planCreateRequest,
@@ -10,6 +12,14 @@ import {
 } from '~/store/modules/plans/actions';
 
 export default function PlanStore({ history }) {
+  const schema = Yup.object().shape({
+    title: Yup.string().required('Titulo do Plano é obrigatório'),
+    duration: Yup.number()
+      .integer()
+      .required('Duração do Plano é obrigatória'),
+    price: Yup.number().required('Preço do Plano é obrigatória'),
+  });
+
   const dispatch = useDispatch();
   const [priceFinal, setPriceFinal] = useState('');
   const [duration, setDuration] = useState('');
@@ -55,6 +65,7 @@ export default function PlanStore({ history }) {
         </header>
         <PlanForm>
           <Form
+            schema={schema}
             initialData={initialData}
             onSubmit={store ? handleCreateSubmit : handleUpdateSubmit}
             id="formPlan"
