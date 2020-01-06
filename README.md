@@ -105,7 +105,7 @@ Isso iniciará a fila de tarefas do redis
 
 ### Frontend (Web)
 
-Depois de executar o back-end.
+Depois de executar o back-end. Acesse a pasta dentro de frontend/Client e rode os seguintes comandos.
 
 ```
 $ yarn
